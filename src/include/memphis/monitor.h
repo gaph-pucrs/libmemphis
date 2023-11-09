@@ -21,9 +21,6 @@
 enum MONITOR_TYPE {
 	MON_QOS,
 	MON_PWR,
-	MON_2,
-	MON_3,
-	MON_4,
 	MON_MAX
 };
 
