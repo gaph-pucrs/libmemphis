@@ -50,3 +50,4 @@
 #define REQUEST_FINISH				0x00000071
 #define HALT_PE						0x00000072
 #define PE_HALTED					0x00000073
+#define MESSAGE_ACK                 0x00000080
