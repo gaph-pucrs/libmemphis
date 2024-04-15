@@ -19,8 +19,8 @@
 static const unsigned MEMPHIS_KERNEL_MSG = 0x10000000;
 static const unsigned MEMPHIS_FORCE_PORT = 0x80000000;
 
-static const int BR_SVC_TGT = 5;
-static const int BR_SVC_ALL = 6;
+static const int BR_SVC_ALL = 0;
+static const int BR_SVC_TGT = 2;
 
 enum _syscall {
 	SYS_writepipe = 1,
