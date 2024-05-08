@@ -5,6 +5,7 @@ SRCDIR = src
 INCDIR = src/include
 
 CC = riscv64-elf-gcc
+AR = riscv64-elf-gcc-ar
 OBJDUMP = riscv64-elf-objdump
 OBJCOPY = riscv64-elf-objcopy
 
@@ -17,7 +18,7 @@ OBJ = $(patsubst %.c, %.o, $(SRCC)) $(patsubst %.S, %.o, $(SRCS))
 all: libmemphis.a
 
 libmemphis.a: $(OBJ)
-	@riscv64-elf-ar rcs $@ $^
+	@$(AR) rcs $@ $^
 
 $(SRCDIR)/%.o: $(SRCDIR)/%.c
 	@printf "${YELLOW}Compiling lib: %s ...${NC}\n" "$<"
