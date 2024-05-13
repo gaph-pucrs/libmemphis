@@ -20,7 +20,7 @@ OBJ = $(patsubst %.c, %.o, $(SRCC)) $(patsubst %.S, %.o, $(SRCS))
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	@$(AR) rcs $@ $^libmutils.a
+	@$(AR) rcs $@ $^
 
 $(SRCDIR)/%.o: $(SRCDIR)/%.c
 	@printf "${YELLOW}Compiling lib: %s ...${NC}\n" "$<"
