@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file memphis.h
  *
  * @author Angelo Elias Dalzotto (angelo.dalzotto@edu.pucrs.br)
@@ -8,7 +8,7 @@
  * 
  * @date May 2021
  * 
- * @brief Memphis API
+ * @brief libmemphis API
  */
 
 #pragma once

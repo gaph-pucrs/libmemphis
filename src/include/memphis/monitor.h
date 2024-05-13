@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file monitor.h
  * 
  * @author Angelo Elias Dalzotto (angelo.dalzotto@edu.pucrs.br)

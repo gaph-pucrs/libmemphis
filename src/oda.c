@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file oda.c
  *
  * @author Angelo Elias Dalzotto (angelo.dalzotto@edu.pucrs.br)

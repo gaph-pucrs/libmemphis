@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file internal_syscalls.c
  *
  * @author Angelo Elias Dalzotto (angelo.dalzotto@edu.pucrs.br)
@@ -8,7 +8,7 @@
  * 
  * @date June 2022
  * 
- * @brief Internal syscalls for newlib in Memphis applications
+ * @brief Internal syscalls for newlib in libmemphis applications
  */
 
 #include <machine/syscall.h>

@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file services.h
  *
  * @author Marcelo Ruaro (marcelo.ruaro@acad.pucrs.br)
