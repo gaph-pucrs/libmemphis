@@ -5,6 +5,7 @@ TARGET = libmemphis.a
 
 SRCDIR = src
 INCDIR = src/include
+HEADERS = $(wildcard $(INCDIR)/*.h) $(wildcard $(INCDIR)/**/*.h)
 
 CC = riscv64-elf-gcc
 AR = riscv64-elf-gcc-ar
@@ -14,19 +15,14 @@ OBJCOPY = riscv64-elf-objcopy
 CFLAGS	= -march=rv32im -mabi=ilp32 -Os -std=c17 -fdata-sections -ffunction-sections -flto -Wall -I$(INCDIR)
 
 SRCC = $(wildcard $(SRCDIR)/*.c)
-SRCS = $(wildcard $(SRCDIR)/*.S)
-OBJ = $(patsubst %.c, %.o, $(SRCC)) $(patsubst %.S, %.o, $(SRCS))
+OBJ = $(patsubst %.c, %.o, $(SRCC))
 
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
 	@$(AR) rcs $@ $^
 
-$(SRCDIR)/%.o: $(SRCDIR)/%.c
-	@printf "${YELLOW}Compiling lib: %s ...${NC}\n" "$<"
-	@$(CC) -c $< -o $@ $(CFLAGS)
-
-$(SRCDIR)/%.o: $(SRCDIR)/%.S
+$(SRCDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	@printf "${YELLOW}Compiling lib: %s ...${NC}\n" "$<"
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
