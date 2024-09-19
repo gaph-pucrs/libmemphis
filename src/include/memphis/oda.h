@@ -28,6 +28,9 @@
 
 #define A_MIGRATION	0x01000000
 
+#define SAFE_HASH_audio_video 0x638E8D3B
+#define SAFE_HASH_management  0xD5DCC234
+
 typedef struct _oda {
 	int id;
 	int tag;
