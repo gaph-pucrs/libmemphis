@@ -21,8 +21,10 @@
 #define ODA_OBSERVE 0x08
 
 #define O_QOS		0x0100
+#define O_SEC       0x0200
 
 #define D_QOS		0x010000
+#define D_SEC       0x020000
 
 #define A_MIGRATION	0x01000000
 
@@ -30,6 +32,12 @@ typedef struct _oda {
 	int id;
 	int tag;
 } oda_t;
+
+typedef struct _oda_list {
+	int tag;
+	int cnt;
+	int *ids;
+} oda_list_t;
 
 /**
  * @brief Initializes a ODA
@@ -39,12 +47,27 @@ typedef struct _oda {
 void oda_init(oda_t *oda);
 
 /**
- * @brief Requests an ODA service
+ * @brief Initializes an ODA list
+ * 
+ * @param servers Pointer to the ODA list
+ */
+void oda_list_init(oda_list_t *servers);
+
+/**
+ * @brief Requests the nearest ODA service
  * 
  * @param oda Pointer to the ODA
  * @param type_tag Flags of the desired ODA capabilities
  */
-void oda_request_service(oda_t *oda, int type_tag);
+void oda_request_nearest_service(oda_t *oda, int type_tag);
+
+/**
+ * @brief Requests all servers of an ODA service
+ * 
+ * @param servers Pointer to the ODA list
+ * @param type_tag Flags of the desired ODA capabilities
+ */
+void oda_request_all_services(oda_list_t *servers, int type_tag);
 
 /**
  * @brief Verifies if the ODA is enabled
@@ -67,6 +90,18 @@ bool oda_is_enabled(oda_t *oda);
  * @return True if the tag is correct and the actuator ID is set
  */
 bool oda_service_provider(oda_t *oda, int type_tag, int id);
+
+/**
+ * @brief Handles an ALL_SERVICE_PROVIDERS message
+ * 
+ * @param servers Pointer to the ODA list
+ * @param type_tag Task type tag of the requested service
+ * @param cnt Number of available servers
+ * @param ids Pointer to the list of server IDs
+ * 
+ * @return True if assigned. False if no memory or incorrect type_tag received
+ */
+bool oda_all_service_providers(oda_list_t *servers, int type_tag, int cnt, int *ids);
 
 /**
  * @brief Gets the ID of the ODA task
