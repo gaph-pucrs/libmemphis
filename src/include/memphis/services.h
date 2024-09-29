@@ -52,6 +52,7 @@
 #define REQUEST_FINISH				0x00000071
 #define HALT_PE						0x00000072
 #define PE_HALTED					0x00000073
+#define TERMINATE_ODA               0x00000074
 #define SEC_INFER                   0x00000080
 #define SEC_SAFE_REQ_APP            0x00000081
 #define SEC_SAFE_APP_RESP           0x00000082
