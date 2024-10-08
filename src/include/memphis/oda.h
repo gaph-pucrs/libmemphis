@@ -29,8 +29,10 @@
 #define A_MIGRATION	0x01000000
 
 #define SAFE_HASH_audio_video 0x638E8D3B
-#define SAFE_HASH_mpeg 	      0x436351D5
+#define SAFE_HASH_dijkstra    0x8C9F31AB
+#define SAFE_HASH_dtw 	      0x15FD5B67
 #define SAFE_HASH_management  0xD5DCC234
+#define SAFE_HASH_mpeg 	      0x436351D5
 
 typedef struct _oda {
 	int id;
