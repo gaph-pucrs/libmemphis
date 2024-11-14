@@ -13,6 +13,7 @@ SECTIONS
     *(.text .stub .text.* .gnu.linkonce.t.*)
     /* .gnu.warning sections are handled specially by elf.em.  */
     *(.gnu.warning)
+    . = ALIGN(4);
   }
   PROVIDE (__etext = .);
   PROVIDE (_etext = .);
@@ -74,7 +75,7 @@ SECTIONS
   . = ALIGN(32 / 8);
   __BSS_END__ = .;
     __global_pointer$ = MIN(__SDATA_BEGIN__ + 0x800,
-                            MAX(__DATA_BEGIN__ + 0x800, __BSS_END__ - 0x800));
+		           MAX(__DATA_BEGIN__ + 0x800, __BSS_END__ - 0x800));
   _end = .; PROVIDE (end = .);
   /DISCARD/ : { *(.note.GNU-stack) *(.gnu_debuglink) *(.gnu.lto_*) }
 }
