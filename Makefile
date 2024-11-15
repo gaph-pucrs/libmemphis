@@ -12,7 +12,7 @@ AR = riscv64-elf-gcc-ar
 OBJDUMP = riscv64-elf-objdump
 OBJCOPY = riscv64-elf-objcopy
 
-CFLAGS	= -march=rv32imac -mabi=ilp32 -Os -std=c17 -fdata-sections -ffunction-sections -flto -Wall -I$(INCDIR)
+CFLAGS	= -march=rv32imac -mabi=ilp32 -Os -std=c23 -fdata-sections -ffunction-sections -flto -Wall -I$(INCDIR)
 
 SRCC = $(wildcard $(SRCDIR)/*.c)
 OBJ = $(patsubst %.c, %.o, $(SRCC))

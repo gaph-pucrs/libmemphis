@@ -14,6 +14,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #define MON_INTERVAL_QOS 50000
@@ -32,9 +33,9 @@ typedef struct _mon {
 /**
  * @brief Initializes the monitoring table
  * 
- * @param table Table to initialize
+ * @param slots Pointer to return the number of slots in table
  */
-mon_t *mon_create();
+mon_t *mon_create(size_t *slots);
 
 /**
  * @brief Sets the pointer to the monitor table in the monitoring infrastructure
