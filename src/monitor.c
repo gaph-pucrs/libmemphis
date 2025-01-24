@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file monitor.c
  * 
  * @author Angelo Elias Dalzotto (angelo.dalzotto@edu.pucrs.br)
@@ -14,6 +14,7 @@
 #include "memphis/monitor.h"
 
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "memphis.h"
 #include "memphis/services.h"
@@ -43,7 +44,8 @@ int mon_set_dmni(mon_t *table, enum MONITOR_TYPE type)
 void mon_announce(enum MONITOR_TYPE type)
 {
 	int16_t addr = memphis_get_addr();
-	uint32_t payload = (addr << 16) | type;
+	int16_t id   = getpid();
+	uint32_t payload = (addr << 16) | ((type << 8) & 0xFFFF) | (id & 0xFF);
 	
 	memphis_br_send_all(payload, ANNOUNCE_MONITOR);
 }

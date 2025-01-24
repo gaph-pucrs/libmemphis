@@ -1,5 +1,5 @@
 /**
- * MA-Memphis
+ * libmemphis
  * @file monitor.h
  * 
  * @author Angelo Elias Dalzotto (angelo.dalzotto@edu.pucrs.br)
@@ -14,16 +14,14 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #define MON_INTERVAL_QOS 50000
 
 enum MONITOR_TYPE {
 	MON_QOS,
-	MON_PWR,
-	MON_2,
-	MON_3,
-	MON_4,
+	MON_SEC,
 	MON_MAX
 };
 
@@ -35,9 +33,9 @@ typedef struct _mon {
 /**
  * @brief Initializes the monitoring table
  * 
- * @param table Table to initialize
+ * @param slots Pointer to return the number of slots in table
  */
-mon_t *mon_create();
+mon_t *mon_create(size_t *slots);
 
 /**
  * @brief Sets the pointer to the monitor table in the monitoring infrastructure

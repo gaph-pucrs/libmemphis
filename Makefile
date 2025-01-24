@@ -1,40 +1,33 @@
 YELLOW	= \033[0;33m
 NC		= \033[0m # No Color
 
+TARGET = libmemphis.a
+
 SRCDIR = src
 INCDIR = src/include
+HEADERS = $(wildcard $(INCDIR)/*.h) $(wildcard $(INCDIR)/**/*.h)
 
 CC = riscv64-elf-gcc
+AR = riscv64-elf-gcc-ar
 OBJDUMP = riscv64-elf-objdump
 OBJCOPY = riscv64-elf-objcopy
 
-CFLAGS	= -march=rv32im -mabi=ilp32 -Os -std=c11 -fdata-sections -ffunction-sections -Wall -I$(INCDIR)
+CFLAGS	= -march=rv32imac -mabi=ilp32 -Os -std=c23 -fdata-sections -ffunction-sections -flto -Wall -I$(INCDIR)
 
 SRCC = $(wildcard $(SRCDIR)/*.c)
-SRCS = $(wildcard $(SRCDIR)/*.S)
-OBJ = $(patsubst %.c, %.o, $(SRCC)) $(patsubst %.S, %.o, $(SRCS))
+OBJ = $(patsubst %.c, %.o, $(SRCC))
 
-all: libmemphis.a
+all: $(TARGET)
 
-libmemphis.a: $(OBJ)
-	@riscv64-elf-ar rcs $@ $^
+$(TARGET): $(OBJ)
+	@$(AR) rcs $@ $^
 
-$(SRCDIR)/%.o: $(SRCDIR)/%.c
-	@printf "${YELLOW}Compiling lib: %s ...${NC}\n" "$<"
-	@$(CC) -c $< -o $@ $(CFLAGS)
-
-$(SRCDIR)/%.o: $(SRCDIR)/%.S
+$(SRCDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	@printf "${YELLOW}Compiling lib: %s ...${NC}\n" "$<"
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
 	@rm -f $(SRCDIR)/*.o
 	@rm -f *.a
-
-install: libmemphis.a
-	@mkdir -p ../include
-	@mkdir -p ../lib
-	@cp -r $(INCDIR)/* ../include
-	@cp libmemphis.a ../lib/libmemphis.a
 
 .PHONY: clean
