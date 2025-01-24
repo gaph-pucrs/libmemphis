@@ -33,7 +33,8 @@ enum _syscall {
 	SYS_brtgt,
 	SYS_getctx,
 	SYS_halt,
-	SYS_sendraw
+	SYS_sendraw,
+	SYS_safelog
 };
 
 /**
