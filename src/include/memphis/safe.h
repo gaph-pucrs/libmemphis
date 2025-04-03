@@ -13,4 +13,6 @@
 
 #pragma once
 
-int safe_log(unsigned timestamp, unsigned latency, int prod, int cons, bool detection);
+#include <stdbool.h>
+
+int safe_log(unsigned snd_time, unsigned inf_time, unsigned edge, bool mal_pred, unsigned inf_lat);
