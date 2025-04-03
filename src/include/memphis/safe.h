@@ -15,4 +15,4 @@
 
 #include <stdbool.h>
 
-int safe_log(unsigned snd_time, unsigned inf_time, unsigned edge, bool mal_pred, unsigned inf_lat);
+int safe_log(unsigned snd_time, unsigned inf_time, unsigned edge, unsigned inf_lat);
