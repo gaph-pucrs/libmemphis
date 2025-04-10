@@ -15,4 +15,14 @@
 
 #include <stdbool.h>
 
-int safe_log(unsigned snd_time, unsigned inf_time, unsigned edge, unsigned inf_lat);
+typedef struct _safe {
+    unsigned hash;
+    int threshold;
+    int (*model)(int, int, int, int, int);
+} safe_t;
+
+void safe_init(safe_t *safe, unsigned hash, int (*model)(int, int, int, int, int), float threshold);
+
+void safe_app_response(safe_t *safe, int target);
+
+int safe_infer(safe_t *safe, unsigned snd_time, unsigned rel_time, unsigned size_hops, unsigned edge, int latency);
