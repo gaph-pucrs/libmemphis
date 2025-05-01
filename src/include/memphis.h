@@ -29,8 +29,6 @@ enum _syscall {
 	SYS_realtime = 5,
 	SYS_getlocation = 9,
 	SYS_brall,
-	SYS_monptr,
-	SYS_brtgt,
 	SYS_getctx,
 	SYS_halt,
 	SYS_sendraw,
@@ -141,25 +139,13 @@ int memphis_real_time(int period, int deadline, int exec_time);
 /**
  * @brief Sends message via broadcast ALL
  * 
- * @param payload Message to send (1 word)
- * @param ksvc Message Kernel Service, used for TGT and ALL (check services.h)
+ * @param ksvc Message Kernel Service (check services.h)
+ * @param payload Message to send
  * 
  * @return 0 on success
  * 		   -1 on failure and sets errno
  */
-int memphis_br_send_all(uint32_t payload, uint8_t ksvc);
-
-/**
- * @brief Sends message via broadcast TARGET
- * 
- * @param payload Message to send (1 word)
- * @param target Target address to send
- * @param ksvc Message Kernel Service, used for TGT and ALL (check services.h)
- * 
- * @return 0 on success
- * 		   -1 on failure and sets errno
- */
-int memphis_br_send_tgt(uint32_t payload, uint16_t target, uint8_t ksvc);
+int memphis_br_send(uint8_t ksvc, uint16_t payload);
 
 /**
  * @brief Gets the number of processors in the system

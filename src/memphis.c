@@ -126,20 +126,11 @@ int memphis_real_time(int period, int deadline, int exec_time)
 	);
 }
 
-int memphis_br_send_all(uint32_t payload, uint8_t ksvc)
+int memphis_br_send(uint8_t ksvc, uint16_t payload)
 {
 	int ret = 0;
 	do {
-		ret = syscall_errno(SYS_brall, 2, payload, ksvc, 0, 0, 0, 0);
-	} while(ret == -1 && errno == EAGAIN);
-	return ret;
-}
-
-int memphis_br_send_tgt(uint32_t payload, uint16_t target, uint8_t ksvc)
-{
-	int ret = 0;
-	do {
-		ret = syscall_errno(SYS_brtgt, 3, payload, target, ksvc, 0, 0, 0);
+		ret = syscall_errno(SYS_brall, 2, ksvc, payload, 0, 0, 0, 0);
 	} while(ret == -1 && errno == EAGAIN);
 	return ret;
 }

@@ -25,29 +25,6 @@ enum MONITOR_TYPE {
 	MON_MAX
 };
 
-typedef struct _mon {
-	int task;	/* In reality 2 bytes, but lets avoid padding problems */
-	int value;
-} mon_t;
-
-/**
- * @brief Initializes the monitoring table
- * 
- * @param slots Pointer to return the number of slots in table
- */
-mon_t *mon_create(size_t *slots);
-
-/**
- * @brief Sets the pointer to the monitor table in the monitoring infrastructure
- * 
- * @param table Table to save the data
- * @param type Monitor class type
- * 
- * @return 0 on success
- * 		   -1 on failure and sets errno
- */
-int mon_set_dmni(mon_t *table, enum MONITOR_TYPE type);
-
 /**
  * @brief Broadcast this task as a monitor
  * 
