@@ -19,47 +19,33 @@ SECTIONS
   PROVIDE (_etext = .);
   PROVIDE (etext = .);
   . = 0x01000000;  /* Start of .rodata segment */
-  .rodata         : { *(.rodata .rodata.* .gnu.linkonce.r.*) }
-  .eh_frame       : ONLY_IF_RW { KEEP (*(.eh_frame)) *(.eh_frame.*) }
-  .init_array    :
+  .data           :
   {
+    *(.rodata .rodata.* .gnu.linkonce.r.*) 
+    KEEP (*(.eh_frame)) *(.eh_frame.*) 
     PROVIDE_HIDDEN (__init_array_start = .);
     KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
     KEEP (*(.init_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))
     PROVIDE_HIDDEN (__init_array_end = .);
-  }
-  .fini_array    :
-  {
     PROVIDE_HIDDEN (__fini_array_start = .);
     KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
     KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
     PROVIDE_HIDDEN (__fini_array_end = .);
-  }
-  .data           :
-  {
     __DATA_BEGIN__ = .;
     *(.data .data.* .gnu.linkonce.d.*)
     SORT(CONSTRUCTORS)
-  }
-  /* We want the small data sections together, so single-instruction offsets
-     can access them all, and initialized data all before uninitialized, so
-     we can shorten the on-disk segment size.  */
-  .sdata          :
-  {
     __SDATA_BEGIN__ = .;
     *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
     *(.sdata .sdata.* .gnu.linkonce.s.*)
+    . = ALIGN(4);
   }
   _edata = .; PROVIDE (edata = .);
   __bss_start = .;
-  .sbss           :
-  {
-    *(.dynsbss)
-    *(.sbss .sbss.* .gnu.linkonce.sb.*)
-    *(.scommon)
-  }
   .bss            :
   {
+   *(.dynsbss)
+   *(.sbss .sbss.* .gnu.linkonce.sb.*)
+   *(.scommon)
    *(.dynbss)
    *(.bss .bss.* .gnu.linkonce.b.*)
    *(COMMON)
