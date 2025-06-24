@@ -14,6 +14,8 @@
 #pragma once
 
 #include <stdbool.h>
+#include <memphis/safe.h>
+#include <memphis/messaging.h>
 
 typedef struct _safe_fp {
     unsigned hash;
@@ -23,6 +25,6 @@ typedef struct _safe_fp {
 
 void safe_fp_init(safe_fp_t *safe, unsigned hash, float (*model)(int, int, int, int, int), float threshold);
 
-void safe_fp_app_response(safe_fp_t *safe, int target);
+void safe_fp_app_response(safe_fp_t *safe, memphis_info_t *info);
 
-int safe_fp_infer(safe_fp_t *safe, unsigned snd_time, unsigned rel_time, unsigned size_hops, unsigned edge, int latency);
+int safe_fp_infer(safe_fp_t *safe, safe_infer_t *message);

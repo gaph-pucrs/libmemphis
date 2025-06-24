@@ -11,13 +11,12 @@
  * @brief libmemphis API
  */
 
-#include "memphis.h"
+#include <memphis.h>
 
 #include <stdbool.h>
 
-#include "memphis/services.h"
-
 #include "internal_syscall.h"
+#include <memphis/services.h>
 
 bool _initialized = false;
 mctx_t _ctx;

@@ -1,7 +1,8 @@
-#include "memphis/safe_fp.h"
-#include "memphis/services.h"
+#include <memphis/oda.h>
+#include <memphis/safe_fp.h>
+#include <memphis/services.h>
 
-#include "memphis.h"
+#include <memphis.h>
 #include "internal_syscall.h"
 
 #include <stdio.h>
@@ -13,27 +14,38 @@ void safe_fp_init(safe_fp_t *safe, unsigned hash, float (*model)(int, int, int, 
     safe->model = model;
 }
 
-void safe_fp_app_response(safe_fp_t *safe, int target)
+void safe_fp_app_response(safe_fp_t *safe, memphis_info_t *info)
 {
-    uint32_t ans[] = {SEC_SAFE_APP_RESP, safe->hash};
-    memphis_send(ans, sizeof(ans), target);
+    oda_provider_t provider;
+    provider.service = SEC_SAFE_APP_RESP;
+    provider.tag     = safe->hash;
+    memphis_send_any(&provider, sizeof(oda_provider_t), info->task);
 }
 
-int safe_fp_infer(safe_fp_t *safe, unsigned snd_time, unsigned rel_time, unsigned size_hops, unsigned edge, int latency)
+int safe_fp_infer(safe_fp_t *safe, safe_infer_t *message)
 {
     unsigned then = memphis_get_tick();
     float lat_pred = safe->model(
-        rel_time, 
-        size_hops & 0xFFFF, 
-        size_hops >> 16,
-        edge >> 16,
-        edge & 0xFFFF
+        message->rel_time, 
+        message->hops,
+        message->size,
+        message->prod,
+        message->cons
     );
-    float diff = (latency - lat_pred) / lat_pred;
+    float diff = (message->latency - lat_pred) / lat_pred;
     bool mal_pred = diff > safe->threshold;
     unsigned now = memphis_get_tick();
     if (mal_pred) {
-        return syscall_errno(SYS_safelog, 6, snd_time, now, edge, (now - then), lat_pred, latency);
+        return syscall_errno(
+            SYS_safelog, 
+            6, 
+            message->timestamp, 
+            now, 
+            ((message->prod << 16) | message->cons), 
+            (now - then), 
+            lat_pred, 
+            message->latency
+        );
     }
     return 0;
 }
