@@ -26,7 +26,6 @@ void safe_app_response(safe_t *safe, memphis_info_t *info)
 
 int safe_infer(safe_t *safe, safe_infer_t *message)
 {
-    printf("running\n");
     unsigned then = memphis_get_tick();
     int lat_pred = safe->model(
         message->rel_time, 
@@ -35,7 +34,7 @@ int safe_infer(safe_t *safe, safe_infer_t *message)
         message->prod,
         message->cons 
     );
-    int diff = ((message->latency - lat_pred)*DIFF_MULT) / lat_pred;
+    int diff = (((int)message->latency - lat_pred)*DIFF_MULT) / lat_pred;
     bool mal_pred = diff > safe->threshold;
     unsigned now = memphis_get_tick();
     if (mal_pred) {
@@ -43,8 +42,8 @@ int safe_infer(safe_t *safe, safe_infer_t *message)
             SYS_safelog, 
             6, 
             message->timestamp, 
-            now, 
-            ((message->prod << 16) | message->cons), 
+            now,
+            ((message->app << 24) | (message->prod << 16) | (message->app << 8) | message->cons),
             (now - then), 
             lat_pred, 
             message->latency
