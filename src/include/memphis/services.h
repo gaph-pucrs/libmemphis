@@ -22,6 +22,7 @@
 #define MESSAGE_REQUEST				0x41
 #define TASK_ALLOCATION				0x42
 #define MESSAGE_DELIVERY			0x43
+#define MONITOR                     0x44
 
 #define MIGRATION_TEXT				0x50
 #define MIGRATION_DATA  			0x51

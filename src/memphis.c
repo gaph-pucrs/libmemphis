@@ -167,3 +167,8 @@ int memphis_halt()
 {
 	return __internal_syscall(SYS_halt, 0, 0, 0, 0, 0, 0, 0);
 }
+
+int memphis_mkfifo(int size, int len)
+{
+	return __internal_syscall(SYS_mkfifo, 2, size, len, 0, 0, 0, 0);
+}

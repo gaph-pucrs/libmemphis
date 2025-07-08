@@ -26,7 +26,8 @@ enum _syscall {
 	SYS_getctx,
 	SYS_halt,
 	SYS_sendraw,
-	SYS_safelog
+	SYS_safelog,
+	SYS_mkfifo
 };
 
 /**
@@ -166,3 +167,14 @@ size_t memphis_get_max_tasks(size_t *total);
  * @return int 0 success, EACCES if not allowed
  */
 int memphis_halt();
+
+/**
+ * @brief Creates the kernel monitoring fifo and binds to this task
+ * 
+ * @param size Number of bytes of each message (multiple of flit size)
+ * @param len  Length of the FIFO
+ * 
+ * @return int
+ * 	0 success
+ */
+int memphis_mkfifo(int size, int len);
