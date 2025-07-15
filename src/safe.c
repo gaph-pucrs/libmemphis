@@ -9,7 +9,7 @@
 
 #define DIFF_MULT 1000
 
-void safe_init(safe_t *safe, unsigned hash, int (*model)(int, int, int, int, int), float threshold)
+void safe_init(safe_t *safe, unsigned hash, int (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t), float threshold)
 {
     safe->hash = hash;
     safe->threshold = (threshold * DIFF_MULT);

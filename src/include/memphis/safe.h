@@ -20,7 +20,7 @@
 typedef struct _safe {
     unsigned hash;
     int threshold;
-    int (*model)(int, int, int, int, int);
+    int (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t);
 } safe_t;
 
 typedef struct _safe_infer {
@@ -40,7 +40,7 @@ typedef struct _safe_infer {
     uint16_t size;    /* Theoretical max. 32 bits */
 } safe_infer_t;
 
-void safe_init(safe_t *safe, unsigned hash, int (*model)(int, int, int, int, int), float threshold);
+void safe_init(safe_t *safe, unsigned hash, int (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t), float threshold);
 
 void safe_app_response(safe_t *safe, memphis_info_t *info);
 
