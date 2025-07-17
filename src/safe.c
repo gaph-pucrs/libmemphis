@@ -7,12 +7,10 @@
 
 #include <stdio.h>
 
-#define DIFF_MULT 1000
-
-void safe_init(safe_t *safe, unsigned hash, int (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t), float threshold)
+void safe_init(safe_t *safe, unsigned hash, int (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t), int threshold)
 {
     safe->hash = hash;
-    safe->threshold = (threshold * DIFF_MULT);
+    safe->threshold = threshold;
     safe->model = model;
 }
 
@@ -34,8 +32,8 @@ int safe_infer(safe_t *safe, safe_infer_t *message)
         message->prod,
         message->cons 
     );
-    int diff = (((int)message->latency - lat_pred)*DIFF_MULT) / lat_pred;
-    bool mal_pred = diff > safe->threshold;
+    int diff = ((int)message->latency - lat_pred);
+    bool mal_pred = (diff > safe->threshold);
     unsigned now = memphis_get_tick();
     if (mal_pred) {
         return syscall_errno(
