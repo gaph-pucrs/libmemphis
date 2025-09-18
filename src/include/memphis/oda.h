@@ -29,6 +29,7 @@
 
 #define A_MIGRATION	0x01000000
 
+#define SAFE_HASH_aes		  0x350AC39A
 #define SAFE_HASH_audio_video 0x638E8D3B
 #define SAFE_HASH_dijkstra    0x8C9F31AB
 #define SAFE_HASH_dtw 	      0x15FD5B67
