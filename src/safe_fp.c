@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-void safe_fp_init(safe_fp_t *safe, unsigned hash, float (*model)(int, int, int, int, int), float threshold)
+void safe_fp_init(safe_fp_t *safe, unsigned hash, float (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t), float threshold)
 {
     safe->hash = hash;
     safe->threshold = threshold;
@@ -32,7 +32,7 @@ int safe_fp_infer(safe_fp_t *safe, safe_infer_t *message)
         message->prod,
         message->cons
     );
-    float diff = (message->latency - lat_pred) / lat_pred;
+    float diff = (message->latency - lat_pred);
     bool mal_pred = diff > safe->threshold;
     unsigned now = memphis_get_tick();
     if (mal_pred) {
@@ -41,7 +41,7 @@ int safe_fp_infer(safe_fp_t *safe, safe_infer_t *message)
             6, 
             message->timestamp, 
             now, 
-            ((message->prod << 16) | message->cons), 
+            ((message->app << 24) | (message->prod << 16) | (message->app << 8) | message->cons),
             (now - then), 
             lat_pred, 
             message->latency

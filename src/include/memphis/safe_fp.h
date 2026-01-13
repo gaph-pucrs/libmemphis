@@ -20,10 +20,10 @@
 typedef struct _safe_fp {
     unsigned hash;
     float threshold;
-    float (*model)(int, int, int, int, int);
+    float (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t);
 } safe_fp_t;
 
-void safe_fp_init(safe_fp_t *safe, unsigned hash, float (*model)(int, int, int, int, int), float threshold);
+void safe_fp_init(safe_fp_t *safe, unsigned hash, float (*model)(const uint16_t, const uint8_t, const uint8_t, const uint8_t, const uint8_t), float threshold);
 
 void safe_fp_app_response(safe_fp_t *safe, memphis_info_t *info);
 
