@@ -172,3 +172,8 @@ int memphis_mkfifo(int size, int len)
 {
 	return __internal_syscall(SYS_mkfifo, 2, size, len, 0, 0, 0, 0);
 }
+
+int memphis_send_mpipe(void *msg, size_t size, int target_id)
+{
+	return syscall_errno(SYS_writempipe, 3, (long)msg, size, target_id, 0, 0, 0);
+}

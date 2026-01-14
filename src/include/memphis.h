@@ -27,7 +27,8 @@ enum _syscall {
 	SYS_halt,
 	SYS_sendraw,
 	SYS_safelog,
-	SYS_mkfifo
+	SYS_mkfifo,
+	SYS_writempipe
 };
 
 /**
@@ -178,3 +179,17 @@ int memphis_halt();
  * 	0 success
  */
 int memphis_mkfifo(int size, int len);
+
+/**
+ * @brief Sends a message through monitoring fifo
+ * 
+ * @details the receiving task must have called memphis_mkfifo beforehand
+ * 
+ * @param msg Pointer to the message
+ * @param size Message size in bytes
+ * @param target_id ID of the consumer task
+ * 
+ * @return 0 on success
+ * 		   -1 on failure and sets errno
+ */
+int memphis_send_mpipe(void *msg, size_t size, int target_id);
