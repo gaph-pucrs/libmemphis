@@ -18,7 +18,7 @@ SECTIONS
   PROVIDE (__etext = .);
   PROVIDE (_etext = .);
   PROVIDE (etext = .);
-  . = 0x01000000;  /* Start of .rodata segment */
+  . = 0x40000000;  /* Start of .rodata segment */
   .data           :
   {
     *(.rodata .rodata.* .gnu.linkonce.r.*) 
