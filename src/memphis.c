@@ -79,10 +79,17 @@ int memphis_receive(void *msg, size_t size, int source_id)
 	return ret;
 }
 
-unsigned memphis_get_tick()
+unsigned long long memphis_get_tick()
 {
-	return __internal_syscall(SYS_gettick, 0, 0, 0, 0, 0, 0, 0);
+	unsigned hi, lo, hi2;
+	do {
+		hi  = (unsigned)__internal_syscall(SYS_gettickh, 0, 0, 0, 0, 0, 0, 0);
+		lo  = (unsigned)__internal_syscall(SYS_gettick,  0, 0, 0, 0, 0, 0, 0);
+		hi2 = (unsigned)__internal_syscall(SYS_gettickh, 0, 0, 0, 0, 0, 0, 0);
+	} while (hi != hi2); /* retry if lo overflowed between the two hi reads */
+	return ((unsigned long long)hi << 32) | lo;
 }
+
 
 int memphis_send_any(void *msg, size_t size, int target_id)
 {

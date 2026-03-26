@@ -20,6 +20,7 @@ enum _syscall {
 	SYS_writepipe = 1,
 	SYS_readpipe,
 	SYS_gettick,
+	SYS_gettickh,
 	SYS_realtime = 5,
 	SYS_getlocation = 9,
 	SYS_brall,
@@ -89,7 +90,7 @@ int memphis_receive(void *msg, size_t size, int source_id);
  * 
  * @return Tick count
  */
-unsigned memphis_get_tick();
+unsigned long long memphis_get_tick();
 
 /**
  * @brief Sends a message with a 3-way handshake
@@ -178,3 +179,31 @@ int memphis_halt();
  * 	0 success
  */
 int memphis_mkfifo(int size, int len);
+
+#include <stdio.h>
+
+/**
+ * @brief Converts an unsigned 64-bit value to a decimal string.
+ *
+ * Uses a rotating pool of 4 static buffers so multiple calls can appear
+ * as separate arguments in the same printf() invocation.
+ */
+__attribute__((optimize("no-tree-vectorize")))
+static inline const char *memphis_u64_str(unsigned long long v)
+{
+	static char bufs[4][22];
+	static int idx = 0;
+	char *buf = bufs[idx++ & 3];
+	if (v == 0) {
+		buf[0] = '0';
+		buf[1] = '\0';
+		return buf;
+	}
+	int i = 21;
+	buf[21] = '\0';
+	while (v > 0) {
+		buf[--i] = '0' + (int)(v % 10);
+		v /= 10;
+	}
+	return &buf[i];
+}
