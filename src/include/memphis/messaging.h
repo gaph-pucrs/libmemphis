@@ -67,6 +67,16 @@ typedef struct _memphis_new_app {
 /* memphis_new_app_t.pad16 flags, set by the application injector */
 #define MEMPHIS_NEW_APP_SECURE	0x0001	/* Instance must be mapped as secure */
 
+/**
+ * OSZ_ROWS broadcast payload: OSZ region rows lo..hi were claimed by (or
+ * released from) one secure application. Its entrance is the top row, hi.
+ * {claim[15], lo[14:8], hi[6:0]}
+ */
+#define MEMPHIS_OSZ_ROWS(claim, lo, hi)	((uint16_t)((((claim) ? 1 : 0) << 15) | (((lo) & 0x7F) << 8) | ((hi) & 0x7F)))
+#define MEMPHIS_OSZ_ROWS_CLAIM(pld)		(((pld) >> 15) & 0x1)
+#define MEMPHIS_OSZ_ROWS_LO(pld)		(((pld) >> 8) & 0x7F)
+#define MEMPHIS_OSZ_ROWS_HI(pld)		((pld) & 0x7F)
+
 typedef struct _memphis_qos_monitor {
     /* {pad8, service, task} */
     uint16_t task;
