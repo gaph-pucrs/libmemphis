@@ -64,6 +64,9 @@ typedef struct _memphis_new_app {
     /* communication*sizeof(int32_t) */
 } memphis_new_app_t;
 
+/* memphis_new_app_t.pad16 flags, set by the application injector */
+#define MEMPHIS_NEW_APP_SECURE	0x0001	/* Instance must be mapped as secure */
+
 typedef struct _memphis_qos_monitor {
     /* {pad8, service, task} */
     uint16_t task;

@@ -163,6 +163,22 @@ size_t memphis_get_max_tasks(size_t *total)
 	return _ctx.PE_SLOTS;
 }
 
+bool memphis_get_osz_window(size_t *x, size_t *y)
+{
+	if(!_initialized){
+		__internal_syscall(SYS_getctx, 1, (long)&_ctx, 0, 0, 0, 0, 0);
+		_initialized = true;
+	}
+
+	if(x != NULL)
+		*x = _ctx.OSZ_X;
+
+	if(y != NULL)
+		*y = _ctx.OSZ_Y;
+
+	return (_ctx.OSZ_X != 0 && _ctx.OSZ_Y != 0);
+}
+
 int memphis_halt()
 {
 	return __internal_syscall(SYS_halt, 0, 0, 0, 0, 0, 0, 0);

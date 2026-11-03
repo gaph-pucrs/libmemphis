@@ -15,6 +15,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 enum _syscall {
 	SYS_writepipe = 1,
@@ -41,6 +42,8 @@ typedef struct _mctx {
 	size_t PE_Y_CNT;
 	size_t PE_SLOTS;
 	size_t MC_SLOTS;
+	size_t OSZ_X;	/* OSZ region columns, anchored at PE 0,0; 0 = disabled */
+	size_t OSZ_Y;	/* OSZ region rows, anchored at PE 0,0; 0 = disabled */
 } mctx_t;
 
 /**
@@ -161,6 +164,19 @@ size_t memphis_get_nprocs(size_t *x, size_t *y);
  * @return size_t Number of maximum local tasks
  */
 size_t memphis_get_max_tasks(size_t *total);
+
+/**
+ * @brief Gets the OSZ reserved region size
+ *
+ * @details The region always starts at PE 0,0 and covers x in [0, X-1] and
+ * y in [0, Y-1].
+ *
+ * @param x Variable to store the region width (X), 0 when disabled
+ * @param y Variable to store the region height (Y), 0 when disabled
+ *
+ * @return true if the platform has a reserved region, false otherwise
+ */
+bool memphis_get_osz_window(size_t *x, size_t *y);
 
 /**
  * @brief Halts the simulation
