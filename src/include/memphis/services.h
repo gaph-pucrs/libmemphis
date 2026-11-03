@@ -68,3 +68,6 @@
 #define HALT_PE						0x82
 #define ANNOUNCE_MONITOR			0x83
 #define OSZ_ROWS					0x84
+#define OSZ_TASK_DONE				0x85
+#define OSZ_ZONE_CLEAR				0x86
+#define OSZ_ZONE_CLEARED			0x87

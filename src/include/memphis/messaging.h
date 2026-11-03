@@ -77,6 +77,25 @@ typedef struct _memphis_new_app {
 #define MEMPHIS_OSZ_ROWS_LO(pld)		(((pld) >> 8) & 0x7F)
 #define MEMPHIS_OSZ_ROWS_HI(pld)		((pld) & 0x7F)
 
+/**
+ * OSZ teardown (BrLite):
+ *   OSZ_TASK_DONE     zone kernel -> mapper  payload (appid << 8) | task index
+ *                     the task ended and its memory was cleared
+ *   OSZ_ZONE_CLEAR    mapper -> zone PEs     payload MEMPHIS_OSZ_ROWS(false, lo, hi)
+ *   OSZ_ZONE_CLEARED  zone PE -> mapper      payload MEMPHIS_OSZ_ROWS(false, lo, hi)
+ *
+ * The kernel hosting the mapper task forwards each report to it locally as a
+ * memphis_osz_report_t, adding the address of the PE that broadcast it.
+ */
+typedef struct _memphis_osz_report {
+    /* {pad8, service, payload} */
+    uint16_t payload;
+    uint8_t  service;
+    uint8_t  pad8;
+
+    uint32_t src_addr;		/* PE that sent the broadcast (0xXXYY) */
+} memphis_osz_report_t;
+
 typedef struct _memphis_qos_monitor {
     /* {pad8, service, task} */
     uint16_t task;
