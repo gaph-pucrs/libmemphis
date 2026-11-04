@@ -64,6 +64,38 @@ typedef struct _memphis_new_app {
     /* communication*sizeof(int32_t) */
 } memphis_new_app_t;
 
+/* memphis_new_app_t.pad16 flags, set by the application injector */
+#define MEMPHIS_NEW_APP_SECURE	0x0001	/* Instance must be mapped as secure */
+
+/**
+ * OSZ_ROWS broadcast payload: OSZ region rows lo..hi were claimed by (or
+ * released from) one secure application. Its entrance is the top row, hi.
+ * {claim[15], lo[14:8], hi[6:0]}
+ */
+#define MEMPHIS_OSZ_ROWS(claim, lo, hi)	((uint16_t)((((claim) ? 1 : 0) << 15) | (((lo) & 0x7F) << 8) | ((hi) & 0x7F)))
+#define MEMPHIS_OSZ_ROWS_CLAIM(pld)		(((pld) >> 15) & 0x1)
+#define MEMPHIS_OSZ_ROWS_LO(pld)		(((pld) >> 8) & 0x7F)
+#define MEMPHIS_OSZ_ROWS_HI(pld)		((pld) & 0x7F)
+
+/**
+ * OSZ teardown (BrLite):
+ *   OSZ_TASK_DONE     zone kernel -> mapper  payload (appid << 8) | task index
+ *                     the task ended and its memory was cleared
+ *   OSZ_ZONE_CLEAR    mapper -> zone PEs     payload MEMPHIS_OSZ_ROWS(false, lo, hi)
+ *   OSZ_ZONE_CLEARED  zone PE -> mapper      payload MEMPHIS_OSZ_ROWS(false, lo, hi)
+ *
+ * The kernel hosting the mapper task forwards each report to it locally as a
+ * memphis_osz_report_t, adding the address of the PE that broadcast it.
+ */
+typedef struct _memphis_osz_report {
+    /* {pad8, service, payload} */
+    uint16_t payload;
+    uint8_t  service;
+    uint8_t  pad8;
+
+    uint32_t src_addr;		/* PE that sent the broadcast (0xXXYY) */
+} memphis_osz_report_t;
+
 typedef struct _memphis_qos_monitor {
     /* {pad8, service, task} */
     uint16_t task;
